@@ -29,7 +29,7 @@
             large
             x-small
             color="brown darken-4"
-            @click="singup"
+            @click="singin"
             >LOGIN</v-btn
           >
         </v-col>
@@ -40,6 +40,7 @@
 
 <script>
 import firebase from 'firebase/app'
+import { db } from '~/plugins/firebaseConfig.js'
 import 'firebase/auth'
 export default {
   data() {
@@ -48,20 +49,37 @@ export default {
       email: '',
       password: '',
       error: '',
+      user: null,
     }
   },
   methods: {
-    singup() {
+    singin() {
       firebase
         .auth()
         .signInWithEmailAndPassword(this.email, this.password)
         .then((user) => {
           console.log(user) /* eslint-disable-line no-console */
           this.$router.push('/wine')
+          this.$store.commit('login', false)
         })
         .catch((error) => {
           this.error = error
           alert(error)
+        })
+      this.getuser()
+    },
+    getuser() {
+      db.collection('User')
+        .where('email', '==', this.email)
+        .onSnapshot((querySnapshot) => {
+          /* eslint no-var: */
+          var data = []
+          querySnapshot.forEach((doc) => {
+            data.push(doc.data())
+          })
+          this.user = data
+          this.$store.commit('user', this.user)
+          console.log(this.user)
         })
     },
   },

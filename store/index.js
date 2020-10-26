@@ -1,4 +1,6 @@
 export const state = () => ({
+  login: true,
+  user: null,
   data: [],
   headers: [
     {
@@ -13,6 +15,15 @@ export const state = () => ({
 export const mutations = {
   input(state, { Wine, size }) {
     state.data.push({ Wine, size })
+  },
+  login(state, val) {
+    state.login = val
+  },
+  user(state, val) {
+    state.user = val
+  },
+  update(state, val) {
+    state.user[0].favorite = val
   },
 }
 export const getters = {

@@ -1,26 +1,64 @@
 <template>
   <v-card class="mx-auto" width="500" height="700" outlined>
-    <h1 align="center">Register</h1>
+    <h1 align="center">SignUp</h1>
     <v-container>
       <v-row>
         <v-col>
-          <v-text-field v-model="name" name="input-10-1" label="ชื่อ">
+          <v-text-field
+            v-model="name"
+            name="input-10-1"
+            label="ชื่อ"
+            :rules="[
+              (v) => !!v || 'Name is required',
+              (v) =>
+                (v && v.replace(/[^0-9/*-+.!@#$%&*():}{}<>,]/g, '') < 1) ||
+                'Please enter only characters.',
+            ]"
+          >
           </v-text-field>
         </v-col>
         <v-col>
-          <v-text-field v-model="lastname" name="input-10-1" label="นามสกุล">
+          <v-text-field
+            v-model="lastname"
+            name="input-10-1"
+            label="นามสกุล"
+            :rules="[
+              (v) => !!v || 'Lastname is required',
+              (v) =>
+                (v && v.replace(/[^0-9/*-+.!@#$%&*():}{}<>,]/g, '') < 1) ||
+                'Please enter only characters.',
+            ]"
+          >
           </v-text-field>
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
-          <v-text-field
-            v-model="birth"
-            name="input-10-1"
-            label="วัน/เดือน/ปีเกิด"
-          >
-          </v-text-field>
-        </v-col>
+        <v-menu
+          ref="menu"
+          v-model="menu"
+          :close-on-content-click="false"
+          transition="scale-transition"
+          offset-y
+          min-width="290px"
+        >
+          <template v-slot:activator="{ on, attrs }">
+            <v-text-field
+              v-model="date"
+              label="วัน/เดือน/ปีเกิด"
+              prepend-icon="mdi-calendar"
+              readonly
+              v-bind="attrs"
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker
+            ref="picker"
+            v-model="date"
+            :max="new Date().toISOString().substr(0, 10)"
+            min="1950-01-01"
+            @change="save"
+          ></v-date-picker>
+        </v-menu>
       </v-row>
       <v-row>
         <v-col>
@@ -28,19 +66,35 @@
             v-model="ID"
             name="input-13"
             label="เลขประจำตัวประชาชน 13 หลัก"
+            :rules="[(v) => !!v || 'ID Card is required']"
           >
           </v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field v-model="email" name="input-10-1" label="Email">
+          <v-text-field
+            v-model="email"
+            name="input-10-1"
+            label="Email"
+            :rules="[(v) => /.+@.+\..+/.test(v) || 'Types must be valid']"
+          >
           </v-text-field>
         </v-col>
       </v-row>
       <v-row>
         <v-col>
-          <v-text-field v-model="user" name="input-10-1" label="User  Name">
+          <v-text-field
+            v-model="user"
+            name="input-10-1"
+            label="User  Name"
+            :rules="[
+              (v) => !!v || 'Username is required',
+              (v) =>
+                (v && v.replace(/[^0-9/*-+.!@#$%&*():}{}<>,]/g, '') < 1) ||
+                'Please enter only characters.',
+            ]"
+          >
           </v-text-field>
         </v-col>
       </v-row>
@@ -88,7 +142,7 @@ export default {
       user: '',
       name: '',
       lastname: '',
-      birth: '',
+      date: '',
       ID: '',
     }
   },
@@ -112,7 +166,7 @@ export default {
         user: this.user,
         name: this.name,
         lastname: this.lastname,
-        birth: this.birth,
+        date: this.date,
         ID: this.ID,
       }
       db.collection('User')

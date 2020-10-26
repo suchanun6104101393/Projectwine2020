@@ -120,11 +120,3 @@ export default {
   },
 }
 </script>
-
-
-name: '',
-      lastname: '',
-      code: '',
-      column: '',
-      brand: '',
-      price: '',

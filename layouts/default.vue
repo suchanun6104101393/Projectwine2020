@@ -5,9 +5,13 @@
         <v-toolbar-title>WINE STORE</v-toolbar-title>
 
         <v-spacer></v-spacer>
-        <v-btn to="/SignIn" icon> <v-icon>mdi-login</v-icon> </v-btn>login
-        <v-btn to="/SignUp" icon> <v-icon>mdi-account-circle</v-icon> </v-btn
-        >Register
+        <v-btn color="indigo darken-1" v-show="login" to="/SignIn"
+          >Signin</v-btn
+        >
+        <v-btn color="deep-purple darken-1" v-if="!login" @click="signOut"
+          >Signout</v-btn
+        >
+        <v-btn color="lime darken-4" to="/SignUp">Signup</v-btn>
       </v-toolbar>
 
       <v-container>
@@ -17,6 +21,8 @@
   </v-app>
 </template>
 <script>
+import firebase from 'firebase'
+require('firebase/auth')
 export default {
   data() {
     return {
@@ -50,6 +56,27 @@ export default {
       rightDrawer: false,
       title: 'WINE STORE',
     }
+  },
+  computed: {
+    login: {
+      get() {
+        return this.$nuxt.$store.state.login
+      },
+    },
+  },
+  methods: {
+    signOut() {
+      firebase
+        .auth()
+        .signOut()
+        .then((result) => {
+          this.$store.commit('login', true)
+          this.$router.push('/')
+        })
+        .catch((error) => {
+          alert(error)
+        })
+    },
   },
 }
 </script>
