@@ -17,13 +17,6 @@
             <v-text-field
               ref="address"
               v-model="address"
-              :rules="[
-                () => !!address || 'This field is required',
-                () =>
-                  (!!address && address.length <= 25) ||
-                  'Address must be less than 25 characters',
-                addressCheck,
-              ]"
               label="Address Line"
               placeholder=""
               counter="25"
@@ -32,7 +25,6 @@
             <v-text-field
               ref="city"
               v-model="city"
-              :rules="[() => !!city || 'This field is required', addressCheck]"
               label="City"
               placeholder=""
               required
@@ -49,13 +41,12 @@
             <v-text-field
               ref="zip"
               v-model="zip"
-              :rules="[() => !!zip || 'This field is required']"
               label="ZIP / Postal Code"
               required
             ></v-text-field>
             <v-text-field
               ref="state"
-              v-model="state"
+              v-model="statee"
               :rules="[() => !!state || 'This field is required']"
               label="Call"
               required
@@ -66,46 +57,11 @@
           <v-card-actions>
             <v-btn text> Cancel </v-btn>
             <v-spacer></v-spacer>
-            <v-slide-x-reverse-transition>
-              <v-tooltip v-if="formHasErrors" left>
-                <template v-slot:activator="{ on, attrs }">
-                  <v-btn
-                    icon
-                    class="my-0"
-                    v-bind="attrs"
-                    @click="resetForm"
-                    v-on="on"
-                  >
-                    <v-icon>mdi-refresh</v-icon>
-                  </v-btn>
-                </template>
-                <span>Refresh form</span>
-              </v-tooltip>
-            </v-slide-x-reverse-transition>
             <nuxt-link to="/thankyou">
               <v-btn color="primary" text @click="submit"> Submit </v-btn>
             </nuxt-link>
           </v-card-actions>
         </v-card>
-        <v-checkbox v-model="checkbox">
-          <template v-slot:label>
-            <div>
-              Confirm address
-              <v-tooltip bottom>
-                <template v-slot:activator="{ on }">
-                  <a
-                    target="_blank"
-                    href="http://vuetifyjs.com"
-                    @click.stop
-                    v-on="on"
-                  >
-                  </a>
-                </template>
-              </v-tooltip>
-              is awesome
-            </div>
-          </template>
-        </v-checkbox>
       </v-col>
     </v-row>
   </div>
@@ -115,6 +71,14 @@ import firebase from 'firebase/app'
 import { db } from '~/plugins/firebaseConfig.js'
 export default {
   data: () => ({
+    addressCheck: '',
+    country: '',
+    name: '',
+    address: '',
+    city: '',
+    zip: '',
+    statee: '',
+    errorMessages: '',
     countries: [
       'กระบี่',
       'กาญจนบุรี',
@@ -201,11 +165,11 @@ export default {
         address: this.address,
         city: this.city,
         zip: this.zip,
-        state: this.state,
+        state: this.statee,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       }
       db.collection('ShippIng')
-        .doc()
+        .doc(this.name)
         .set(dataText)
         .then(function () {
           // eslint-disable-next-line no-console
@@ -219,3 +183,13 @@ export default {
   },
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+h1 {
+  font-family: 'Itim', cursive;
+}
+.theme--dark.v-application {
+  background-image: url('https://cdn.pixabay.com/photo/2020/05/04/09/02/wine-5128360_960_720.jpg?fbclid=IwAR3zrtRbip-gb9FHrDDK14Q-zgYYl7-UdpNRPGz1kf7tzx8BQF9cC1Hp5M8');
+  background-size: cover;
+}
+</style>

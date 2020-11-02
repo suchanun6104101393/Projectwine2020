@@ -69,7 +69,7 @@ export default {
       this.getuser()
     },
     getuser() {
-      db.collection('User')
+      db.collection('ผู้ใช้')
         .where('email', '==', this.email)
         .onSnapshot((querySnapshot) => {
           /* eslint no-var: */

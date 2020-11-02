@@ -80,3 +80,13 @@ export default {
   },
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+h1 {
+  font-family: 'Itim', cursive;
+}
+.theme--dark.v-application {
+  background-image: url('https://cdn.pixabay.com/photo/2020/05/04/09/02/wine-5128360_960_720.jpg?fbclid=IwAR3zrtRbip-gb9FHrDDK14Q-zgYYl7-UdpNRPGz1kf7tzx8BQF9cC1Hp5M8');
+  background-size: cover;
+}
+</style>

@@ -24,7 +24,7 @@
             <v-text-field
               ref="Paymentamount"
               v-model="Paymentamount"
-              label="Payment amount"
+              label="Transfer amount"
               placeholder=""
               required
             />
@@ -42,7 +42,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="time"
-                  label="Picker in time"
+                  label="Transfer time"
                   prepend-icon="mdi-clock-time-four-outline"
                   readonly
                   v-bind="attrs"
@@ -57,12 +57,14 @@
               ></v-time-picker>
             </v-menu>
             <v-file-input
-              :rules="rules"
-              accept="image/png, image/jpeg, image/bmp"
-              placeholder="Pick an slip"
+              accept="image/*"
               prepend-icon="mdi-camera"
               label="Proof of payment"
-            />
+              @change="previewImage"
+            ></v-file-input>
+            <v-col class="text-right">
+              <v-btn @click="onUpload">Upload slip</v-btn>
+            </v-col>
           </v-card-text>
           <v-divider class="mt-12" />
           <v-card-actions>
@@ -82,8 +84,15 @@
 <script>
 import firebase from 'firebase/app'
 import { db } from '~/plugins/firebaseConfig.js'
+require('firebase/storage')
 export default {
   data: () => ({
+    imageData: null,
+    picture: null,
+    img: [],
+    uploadValue: 0,
+    Paymentamount: '',
+    Username: '',
     time: null,
     menu2: false,
     modal2: false,
@@ -103,6 +112,7 @@ export default {
         Username: this.Username,
         Paymentamount: this.Paymentamount,
         time: this.time,
+        img: this.img,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       }
       db.collection('Payment')
@@ -117,6 +127,40 @@ export default {
           console.error('Error writing document: ', error)
         })
     },
+    previewImage(event) {
+      this.uploadValue = 0
+      this.picture = null
+      this.imageData = event
+    },
+    onUpload() {
+      this.picture = null
+      const storageRef = firebase.storage().ref(this.imageData.name)
+      const uploadTask = storageRef.put(this.imageData)
+      uploadTask.on(
+        'state_changed',
+        (snapshot) => {},
+        (error) => {
+          alert(error)
+        },
+        () => {
+          uploadTask.snapshot.ref.getDownloadURL().then((dowloadURL) => {
+            this.picture = dowloadURL
+            this.img.push(this.picture)
+            alert('Upload สำเร็จ')
+          })
+        }
+      )
+    },
   },
 }
 </script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+h1 {
+  font-family: 'Itim', cursive;
+}
+.theme--dark.v-application {
+  background-image: url('https://cdn.pixabay.com/photo/2020/05/04/09/02/wine-5128360_960_720.jpg?fbclid=IwAR3zrtRbip-gb9FHrDDK14Q-zgYYl7-UdpNRPGz1kf7tzx8BQF9cC1Hp5M8');
+  background-size: cover;
+}
+</style>
