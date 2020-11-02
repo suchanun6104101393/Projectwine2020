@@ -1,51 +1,49 @@
 <template>
-  <v-layout>
-    <v-flex>
-      <v-card>
-        <v-card-title>
-          Order
-          <v-spacer />
-          <v-text-field
-            v-model="searchInput"
-            append-icon="mdi-magnify"
-            label="Search"
-            single-line
-            hide-details
-          />
-        </v-card-title>
-        <v-data-table
-          :headers="headers"
-          :items="dataTable"
-          :search="searchInput"
-          class="elevation-1"
-        />
-      </v-card>
-    </v-flex>
-  </v-layout>
+  <div>
+    <v-data-table
+      :headers="headers"
+      :items="array"
+      :items-per-page="5"
+      class="elevation-1"
+    />
+  </div>
 </template>
+
 <script>
 import { db } from '~/plugins/firebaseConfig.js'
 export default {
   layout: 'admin',
   data: () => ({
-    searchInput: '',
-    dataTable: [],
+    dataTable: [{}],
+    array: [],
     headers: [
       {
         text: 'name',
         align: 'start',
-        sortable: false,
-        value: 'Order',
+        sortable: true,
+        value: 'name',
       },
       {
         text: 'ID',
         align: 'start',
+        sortable: true,
+        value: 'id',
+      },
+      {
+        text: 'Quantity',
+        align: 'start',
         sortable: false,
-        value: 'Order',
+        value: 'qty',
+      },
+      {
+        text: 'Total',
+        align: 'start',
+        sortable: false,
+        value: 'total',
       },
     ],
   }),
-  created() {
+  mounted() {
     this.getData()
   },
   methods: {
@@ -59,6 +57,9 @@ export default {
             data.push(doc.data())
           })
           this.dataTable = data
+          for (const i in this.dataTable) {
+            this.array = this.dataTable[i].Order
+          }
         })
     },
   },

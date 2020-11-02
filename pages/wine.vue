@@ -104,6 +104,7 @@
           </tbody>
         </table>
         <h1 align="center">Total {{ total() }} ฿</h1>
+        <h2 align="center">****Please Remember Total****</h2>
         <v-btn
           block
           elevation="2"
@@ -170,7 +171,7 @@ export default {
         },
         {
           id: 4,
-          name: 'ANTINORI',
+          name: 'Antinori',
           price: 1060,
           image:
             'https://i2.wp.com/wineandotherstories.com/wp-content/uploads/2019/10/guado-al-tasso-full.jpg?resize=446%2C446&ssl=1',
@@ -180,7 +181,7 @@ export default {
         },
         {
           id: 5,
-          name: 'LUNGAROTTI',
+          name: 'Lungarotti',
           price: 1665,
           image:
             'https://media-cdn.tripadvisor.com/media/photo-s/17/9f/c3/88/rubesco-riserva-vigna.jpg',
@@ -190,7 +191,7 @@ export default {
         },
         {
           id: 6,
-          name: 'ROBERT MONDAVI',
+          name: 'Robert Mondavi',
           price: 1880,
           image:
             'https://shopvintagewines.com/wp-content/uploads/2018/06/celebrating-50-years-of-robert-mondavi-winery-0616.jpg',
@@ -200,7 +201,7 @@ export default {
         },
         {
           id: 7,
-          name: 'RADIKON',
+          name: 'Radikon',
           price: 2010,
           image:
             'https://openingabottle.com/wp-content/uploads/2018/11/20181003-Wine-0001-1000x600.jpg',
@@ -210,7 +211,7 @@ export default {
         },
         {
           id: 8,
-          name: 'PRIMOSIC',
+          name: 'Primosic',
           price: 1680,
           image:
             'https://www.orangewines.es/wp-content/uploads/2020/01/20161210_104949-scaled.jpg',
@@ -220,7 +221,7 @@ export default {
         },
         {
           id: 9,
-          name: 'QUADY',
+          name: 'Quady',
           price: 979,
           image:
             'https://madera.objects.liquidweb.services/photos/9310-quady_lineup-1000.jpg',
@@ -230,7 +231,7 @@ export default {
         },
         {
           id: 10,
-          name: 'WARRE S',
+          name: 'Warre S',
           price: 3800,
           image:
             'https://obs.line-scdn.net/r/myhome/hex/95e037a4783e32033c2ee55f90f7740c4de222d4690a4de1c429df57c64e4a67tca52d4e19c96601t0ca4aebe/w960',
@@ -250,7 +251,7 @@ export default {
         },
         {
           id: 12,
-          name: 'ESTRELLA',
+          name: 'Estrella',
           price: 1700,
           image:
             'https://media-cdn.tripadvisor.com/media/photo-s/0e/0b/62/fb/estrella-damm-inedit.jpg',
@@ -458,13 +459,17 @@ export default {
   },
 }
 </script>
-<style scoped>
-.qty-minus {
-  cursor: pointer;
-  margin-right: 20px;
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Itim&display=swap');
+h1 {
+  font-family: 'Itim', cursive;
 }
-.qty-plus {
-  cursor: pointer;
-  margin-left: 20px;
+h2 {
+  color: chocolate;
+  font-family: 'Itim', cursive;
+}
+.theme--dark.v-application {
+  background-image: url('https://cdn.pixabay.com/photo/2020/05/04/09/02/wine-5128360_960_720.jpg?fbclid=IwAR3zrtRbip-gb9FHrDDK14Q-zgYYl7-UdpNRPGz1kf7tzx8BQF9cC1Hp5M8');
+  background-size: cover;
 }
 </style>

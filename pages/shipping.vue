@@ -45,9 +45,8 @@
               required
             ></v-text-field>
             <v-text-field
-              ref="state"
-              v-model="statee"
-              :rules="[() => !!state || 'This field is required']"
+              ref="call"
+              v-model="call"
               label="Call"
               required
               placeholder=""
@@ -77,7 +76,7 @@ export default {
     address: '',
     city: '',
     zip: '',
-    statee: '',
+    call: '',
     errorMessages: '',
     countries: [
       'กระบี่',
@@ -165,7 +164,7 @@ export default {
         address: this.address,
         city: this.city,
         zip: this.zip,
-        state: this.statee,
+        call: this.call,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
       }
       db.collection('ShippIng')
