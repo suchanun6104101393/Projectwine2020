@@ -3,7 +3,7 @@
     <v-data-table
       :headers="headers"
       :items="array"
-      :items-per-page="5"
+      :items-per-page="100"
       class="elevation-1"
     />
   </div>
@@ -48,6 +48,7 @@ export default {
   },
   methods: {
     getData() {
+      const p = []
       db.collection('Order')
         .orderBy('timestamp')
         .onSnapshot((querySnapshot) => {
@@ -57,8 +58,13 @@ export default {
             data.push(doc.data())
           })
           this.dataTable = data
-          for (const i in this.dataTable) {
+          for (let i = 0; i < this.dataTable.length; i++) {
             this.array = this.dataTable[i].Order
+            for (let i = 0; i < this.array.length; i++) {
+              p.push(this.array[i])
+              this.array = p
+              break
+            }
           }
         })
     },
